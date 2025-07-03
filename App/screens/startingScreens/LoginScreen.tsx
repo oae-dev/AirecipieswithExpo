@@ -5,6 +5,7 @@ import { Image, Keyboard, Platform, StyleSheet, Text, ToastAndroid, TouchableOpa
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import Myloader from '@/App/component/loader';
 import MyButton from '@/App/component/MyButton';
 import MyModal from '@/App/component/MyModal';
 import AuthTextField from '@/App/component/TextField';
@@ -23,17 +24,20 @@ const LoginScreen = () => {
   const [wrongEmail, setwrongEmail] = useState<boolean>(false);
   const [wrongPassword, setwrongPassword] = useState<boolean>(false);
   const [modal, setmodal] = useState<boolean>(false);
+  const [myLoadershow, setmyLoadershow] = useState<boolean>(false);
 
-  
-const loginUser = ()=>{
+
+  const loginUser = () => {
+    setmyLoadershow(true);
     Keyboard.dismiss();
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-         if (Platform.OS === 'android') {
-      ToastAndroid.show('Login Success', ToastAndroid.SHORT);
-    } else {
-      alert('Login Success');  
-    }
+         setmyLoadershow(false);
+        if (Platform.OS === 'android') {
+          ToastAndroid.show('Login Success', ToastAndroid.SHORT);
+        } else {
+          alert('Login Success');
+        }
         navigation.replace(screens.HomeTabs);
       })
       .catch(
@@ -42,20 +46,23 @@ const loginUser = ()=>{
           if (error?.code === 'auth/invalid-email') {
             setwrongEmail(true);
             setwrongPassword(true);
+             setmyLoadershow(false);
 
           }
           if (error?.code === 'auth/wrong-password') {
             setwrongPassword(true);
+             setmyLoadershow(false);
           }
           if (error?.code === 'auth/invalid-credential') {
             setwrongEmail(true);
             setwrongPassword(true);
+             setmyLoadershow(false);
 
           }
 
         }
       );
-}
+  }
 
 
   return (
@@ -66,20 +73,20 @@ const loginUser = ()=>{
         <View style={styles.fieds}>
           <View>
             <AuthTextField value={email} onchange={setEmail} placeholder="Email"
-            correctData={wrongEmail} changeOnFoucs={() => {
-              setwrongEmail(false);
-              setwrongPassword(false);
-            }} />
+              correctData={wrongEmail} changeOnFoucs={() => {
+                setwrongEmail(false);
+                setwrongPassword(false);
+              }} />
             {
               wrongEmail ? <Text style={styles.wrongText}>Worng Email</Text> : null
             }
           </View>
           <View>
             <AuthTextField value={password} onchange={setPassword} placeholder="Password"
-            correctData={wrongPassword} changeOnFoucs={() => {
-              setwrongEmail(false);
-              setwrongPassword(false);
-            }} />
+              correctData={wrongPassword} changeOnFoucs={() => {
+                setwrongEmail(false);
+                setwrongPassword(false);
+              }} />
             {
               wrongPassword ? <Text style={styles.wrongText}>Worng Password</Text> : null
             }
@@ -88,7 +95,7 @@ const loginUser = ()=>{
         {
           password === '' || email === '' ?
             <View style={styles.buttonWidth}>
-              <MyButton title="Sign In" color="#7a7746" onpress={() => setmodal(true)} btnwidth={'90%'}/>
+              <MyButton title="Sign In" color="#7a7746" onpress={() => setmodal(true)} btnwidth={'90%'} />
             </View>
             :
             <View style={styles.buttonWidth}>
@@ -105,6 +112,7 @@ const loginUser = ()=>{
         </TouchableOpacity>
 
         <MyModal visiblility={modal} setVisibility={setmodal} />
+        <Myloader visible={myLoadershow} />
       </View>
     </TouchableWithoutFeedback>
   );

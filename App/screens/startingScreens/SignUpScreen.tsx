@@ -4,6 +4,7 @@ import { Image, Keyboard, Platform, Text, ToastAndroid, TouchableOpacity, Toucha
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import Myloader from '@/App/component/loader';
 import MyButton from '@/App/component/MyButton';
 import MyModal from '@/App/component/MyModal';
 import AuthTextField from '@/App/component/TextField';
@@ -24,10 +25,13 @@ const SignUpScreen = () => {
   const [wrongPassword, setwrongPassword] = useState<boolean>(false);
   const [modal, setmodal] = useState<boolean>(false);
   const [myerror,setMyError] = useState<string | null >(null);
+  const [myLoadershow, setmyLoadershow] = useState<boolean>(false);
 
   const createUser = () => {
+    setmyLoadershow(true);
    createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
+        setmyLoadershow(false);
          if (Platform.OS === 'android') {
               ToastAndroid.show('SignUp Successfuly', ToastAndroid.SHORT);
             } else {
@@ -42,6 +46,7 @@ const SignUpScreen = () => {
             setwrongEmail(true);
             setwrongPassword(true);
             setMyError('auth/email-already-in-use');
+            setmyLoadershow(false);
             
           }
           if (error.code === 'auth/invalid-email') {
@@ -49,14 +54,17 @@ const SignUpScreen = () => {
             setwrongPassword(true);
             setMyError('auth/invalid-email');
             console.log('That email address is invalid!');
+            setmyLoadershow(false);
           }
           if ( error.code === 'auth/weak-password') {
             setwrongPassword(true);
             setMyError('auth/weak-password');
+            setmyLoadershow(false);
             
           }
 
           console.error(error);
+          setmyLoadershow(false);
         });
   };
 
@@ -109,6 +117,7 @@ const SignUpScreen = () => {
         <Text>SignIn with email & email</Text>
       </TouchableOpacity>
       <MyModal visiblility={modal} setVisibility={setmodal} />
+      <Myloader visible={myLoadershow} />
     </View>
     </TouchableWithoutFeedback>
   );
