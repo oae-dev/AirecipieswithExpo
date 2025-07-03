@@ -28,13 +28,14 @@ const imglist: number[] = [
 
 
 const Splash = () => {
+  const {height} = Dimensions.get('window');
   const {user} = useUser();
-  console.log(user);
+  console.log("userInfo",user);
   const Navigation = useNavigation<NativeStackNavigationProp<StackRootProps, 'Splash'>>();
-  const screenHeight = Dimensions.get('window').height;
+  
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{height:height}]}>
       <View style = {{transform: [{ rotate: '-5deg' }]}}>
       <MarqueeList data={imglist} speed={2} />
       <MarqueeList data={imglist} speed={1.5} />
@@ -61,7 +62,6 @@ const Splash = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.Primary,
   },
   cover: {

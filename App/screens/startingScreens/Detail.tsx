@@ -5,7 +5,7 @@ import { AddData, DeleteFav, FetchData } from '@/services/database';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { StackRootProps } from '../navigators/starting';
 
 
@@ -21,83 +21,97 @@ const Detail = () => {
   const [fav, setfav] = useState<boolean>(false);
   console.log('DETAIL OBJECTIVE DATA -', objectiveData);
 
-  const [DataBaseRecipieData,setDatabaseRecipieData] = useState<any[]>([]);
+  const [DataBaseRecipieData, setDatabaseRecipieData] = useState<any[]>([]);
 
 
-  const GetData = async ()=>{
-     const data = await FetchData();
-     console.log('MYDATA',data);
-     setDatabaseRecipieData(data);
-    };
+  const GetData = async () => {
+    const data = await FetchData();
+    console.log('MYDATA', data);
+    setDatabaseRecipieData(data);
+  };
 
-    useEffect(()=>{
-      GetData();
-    },[]);
-
-
-    useEffect(() => {
-  if (DataBaseRecipieData) {
-    const isFav = DataBaseRecipieData.some(
-    (item: any) => item.recipeName === objectiveData.recipeName
-  );
-  setfav(isFav);
-  }
-}, [DataBaseRecipieData, objectiveData.recipeName]);
+  useEffect(() => {
+    GetData();
+  }, []);
 
 
+  useEffect(() => {
+    if (DataBaseRecipieData) {
+      const isFav = DataBaseRecipieData.some(
+        (item: any) => item.recipeName === objectiveData.recipeName
+      );
+      setfav(isFav);
+    }
+  }, [DataBaseRecipieData, objectiveData.recipeName]);
+
+  const { height } = Dimensions.get('window');
 
   return (
 
-    <ScrollView style={styles.container}>
-      <View style={styles.imgcontainer}>
+    <ScrollView style={styles.container}
+    contentContainerStyle={styles.contentContainer}>
+        <View style={styles.imgcontainer}>
 
           <TouchableOpacity
             onPress={() => Navigation.goBack()}
 
             style={styles.back}>
-              <Image source={require('../../../assets/icons/back.png')} style={styles.backimg} />
-            </TouchableOpacity>
+            <Image source={require('../../../assets/icons/back.png')} style={styles.backimg} />
+          </TouchableOpacity>
 
-        <Image source={require('../../../assets/detailimg.png')}
-          style={styles.screenImg} />
-        {
-          fav ?
-            <TouchableOpacity
-            onPress={()=>{
-              setfav(!fav);
-               DeleteFav(objectiveData.recipeName);
-            }}
+          <Image source={require('../../../assets/detailimg.png')}
+            style={styles.screenImg} />
+          {
+            fav ?
+              <TouchableOpacity
+                onPress={() => {
+                  setfav(!fav);
+                  DeleteFav(objectiveData.recipeName);
+                }}
 
-            style={styles.favicon}>
-              <Image source={require('../../../assets/icons/i1.png')} style={styles.fabimg} />
-            </TouchableOpacity>
-            :
-            <TouchableOpacity
-            onPress={()=>{
-              setfav(!fav);
-              AddData(objectiveData);
-            }}
+                style={styles.favicon}>
+                <Image source={require('../../../assets/icons/i1.png')} style={styles.fabimg} />
+              </TouchableOpacity>
+              :
+              <TouchableOpacity
+                onPress={() => {
+                  setfav(!fav);
+                  AddData(objectiveData);
+                }}
 
-            style={styles.nonfavicon}>
-              <Image source={require('../../../assets/icons/i1.png')} style={styles.nonfavImg} />
-            </TouchableOpacity>
-        }
-      </View>
+                style={styles.nonfavicon}>
+                <Image source={require('../../../assets/icons/i1.png')} style={styles.nonfavImg} />
+              </TouchableOpacity>
+          }
 
-      <DetailIntro recipeData={recipeData} />
-      <Ingredients recipeData={recipeData} />
-      <Steps steps={objectiveData.steps} />
+        </View>
+
+        <View style={{flex:1}}>
+          <DetailIntro recipeData={objectiveData} />
+          <Ingredients recipeData={recipeData} />
+          <Steps steps={objectiveData.steps} />
+        </View>
+          
+        
+
+
+      
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     padding: 20,
-    paddingBottom: 50,
+    paddingBottom: 50,  
+    flex:1,
+     height: '100%',
   },
-  imgcontainer:{
-    height:300,
+   contentContainer: {
+    flexGrow: 1,
+  },
+  imgcontainer: {
+    height: 300,
   },
   favicon: {
     height: 70, width: 70,
@@ -107,16 +121,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  fabimg:{
-    height: 40,
-     width: 40,
-  },
-  nonfavImg:{
+  fabimg: {
     height: 40,
     width: 40,
-    tintColor:'white',
   },
-  nonfavicon:{
+  nonfavImg: {
+    height: 40,
+    width: 40,
+    tintColor: 'white',
+  },
+  nonfavicon: {
     height: 70, width: 70,
     backgroundColor: 'gray', position: 'absolute',
     bottom: 10, right: 10,
@@ -124,7 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  back:{
+  back: {
     height: 50, width: 50,
     backgroundColor: 'white', position: 'absolute',
     top: 10, left: 10,
@@ -132,16 +146,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
-  elevation: 10,
+    elevation: 10,
   },
-  backimg:{
+  backimg: {
     height: 40,
     width: 40,
   },
-  screenImg:{
-  height:'100%',
-  width:'100%',
-  borderRadius:30,
+  screenImg: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 30,
   },
 });
 

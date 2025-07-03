@@ -2,60 +2,64 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import GenrateRecipies from './GenrateRecipies';
 
-const Steps = (steps: any) => {
-  console.log(steps);
+type Props = {
+  steps: string[];
+};
+
+const Steps = ({ steps }: Props) => {
   return (
-    <View >
+    <View style={styles.container}>
       <Text style={styles.heading}>Steps</Text>
+
       <View>
-        {
-          steps.steps.map((item: any, index: string) => {
-            return (
-              <View key={index} style={styles.steplist}>
-                <Text style={styles.number}>{index + 1}</Text>
-                <Text style={styles.step}>
-                  {item}
-                </Text>
-              </View>
-            );
-          })
-        }
+        {steps.map((item, index) => (
+          <View key={index} style={styles.stepContainer}>
+            <Text style={styles.number}>{index + 1}</Text>
+            <Text style={styles.step}>{item}</Text>
+          </View>
+        ))}
       </View>
-      <GenrateRecipies/>
-      <View style={styles.devider} />
+
+      <GenrateRecipies />
+      <View style={styles.divider} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    marginTop: 20,
+  },
   heading: {
     fontFamily: 'Outfit-Bold',
     fontSize: 20,
-    marginTop: 10,
+    marginBottom: 10,
   },
-  devider: {
-    height: 30,
+  stepContainer: {
+    flexDirection: 'row',
+    marginVertical: 8,
+    paddingRight: 25,
   },
   number: {
     margin: 5,
     paddingTop: 3,
     height: 30,
     width: 30,
-    alignSelf: 'center',
     textAlign: 'center',
     borderRadius: 15,
     backgroundColor: '#cedbbd',
-    fontSize: 19,
+    fontSize: 18,
+    fontWeight: 'bold',
+    alignSelf: 'center',
   },
   step: {
-    fontSize: 19,
+    fontSize: 17,
     marginStart: 10,
-    marginBottom: 5,
+    flex: 1,
   },
-  steplist: {
-    flexDirection: 'row',
-    margin: 10,
-    paddingEnd: 25,
+  divider: {
+    height: 30,
   },
 });
 

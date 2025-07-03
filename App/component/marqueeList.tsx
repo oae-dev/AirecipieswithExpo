@@ -1,7 +1,7 @@
 
 import { Marquee } from '@animatereactnative/marquee';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 
 type MarqueeListProps = {
     data: number[],
@@ -10,8 +10,10 @@ type MarqueeListProps = {
 
 
 const MarqueeList = (props: MarqueeListProps) => {
+    const {height,width} = Dimensions.get('window');
+    const myHeight = height/5
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,{height:height/4.5}]}>
             <Marquee
                 speed={props.speed}
             >
@@ -20,7 +22,7 @@ const MarqueeList = (props: MarqueeListProps) => {
 
                         props.data.map((item: number, index) => {
                             return (
-                                <View key={index} style={styles.imageWrapper}>
+                                <View key={index} style={[styles.imageWrapper,{height:myHeight}]}>
                                     <Image source={item} style={styles.img} />
                                 </View>
 
@@ -35,7 +37,6 @@ const MarqueeList = (props: MarqueeListProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: 170,
         justifyContent: 'center',
    },
     img: {
@@ -44,7 +45,6 @@ const styles = StyleSheet.create({
     },
     imageWrapper: {
         width: 220,
-        height: '100%',
         marginHorizontal: 10,
         borderRadius: 10,
         overflow: 'hidden',

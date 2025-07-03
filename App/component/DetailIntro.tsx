@@ -1,88 +1,94 @@
-
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import colors from '../../services/colors';
 
-
-
 const DetailIntro = ({ recipeData }: any) => {
-    console.log('In DetailIntro' + recipeData);
-    const RecipeDataObject = JSON.parse(recipeData);
-    return (
-        <View>
-            <Text style={style.heading}>{RecipeDataObject?.recipeName}</Text>
-            <Text style={style.title}>Description</Text>
-            <Text style={style.discription}>{RecipeDataObject?.description}</Text>
-            <View style={{ flexDirection: 'row' }}>
-                <View style={style.inforaper}>
-                    <Image source={require('../../assets/icons/leaf.png')} style={style.infoimg} />
-                    <View>
-                        <Text style={style.info}>{RecipeDataObject?.calories} Cal</Text>
-                        <Text style={style.infoDis}>Calories</Text>
-                    </View>
-                </View>
+  console.log('In DetailIntro', recipeData);
 
-                <View style={style.inforaper}>
-                    <Image source={require('../../assets/icons/timer.png')} style={style.infoimg} />
-                    <View>
-                        <Text style={style.info}>{RecipeDataObject?.cookTime} Min</Text>
-                        <Text style={style.infoDis}>Timer</Text>
-                    </View>
-                </View>
+  return (
+    <View style={styles.wrapper}>
+      <Text style={styles.heading}>{recipeData?.recipeName}</Text>
 
-                <View style={style.inforaper}>
-                    <Image source={require('../../assets/icons/serve.png')} style={style.infoimg} />
-                    <View>
-                        <Text style={style.info}>{RecipeDataObject?.serveTo} Serve</Text>
-                        <Text style={style.infoDis}>serveTo</Text>
-                    </View>
-                </View>
+      <Text style={styles.title}>Description</Text>
+      <Text style={styles.description}>{recipeData?.description}</Text>
 
-            </View>
+      <View style={styles.infoRow}>
+        <View style={styles.infoBox}>
+          <Image source={require('../../assets/icons/leaf.png')} style={styles.infoIcon} />
+          <View>
+            <Text style={styles.infoText}>{recipeData?.calories} Cal</Text>
+            <Text style={styles.infoLabel}>Calories</Text>
+          </View>
         </View>
-    );
+
+        <View style={styles.infoBox}>
+          <Image source={require('../../assets/icons/timer.png')} style={styles.infoIcon} />
+          <View>
+            <Text style={styles.infoText}>{recipeData?.cookTime} Min</Text>
+            <Text style={styles.infoLabel}>Cook Time</Text>
+          </View>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Image source={require('../../assets/icons/serve.png')} style={styles.infoIcon} />
+          <View>
+            <Text style={styles.infoText}>{recipeData?.serveTo} Serve</Text>
+            <Text style={styles.infoLabel}>Servings</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
 };
 
-
-const style = StyleSheet.create({
-    heading: {
-        fontFamily: 'Outfit-Bold',
-        fontSize: 30,
-        marginTop: 20,
-    },
-    title: {
-        fontFamily: 'Outfit-Bold',
-        fontSize: 20,
-        marginTop: 10,
-    },
-    discription: {
-        color: colors.discription,
-        fontSize: 20,
-        fontFamily: 'Outfit-Regular',
-
-    },
-    inforaper: {
-        backgroundColor: '#cedbbd',
-        flexDirection: 'row', alignItems: 'center', padding: 10,
-        borderRadius: 10,
-        margin: 5,
-    },
-    info: {
-        color: 'green',
-        fontFamily: 'Outfit-Bold',
-        fontSize: 17,
-        marginTop: 5,
-        marginStart: 10,
-    },
-    infoDis: {
-        marginStart: 12,
-        fontSize: 15,
-        fontWeight: '500',
-    },
-    infoimg: {
-        height: 30,
-        width: 30,
-        tintColor: 'green',
-    },
+const styles = StyleSheet.create({
+  wrapper: {
+    marginTop: 20,
+  },
+  heading: {
+    fontFamily: 'Outfit-Bold',
+    fontSize: 30,
+  },
+  title: {
+    fontFamily: 'Outfit-Bold',
+    fontSize: 20,
+    marginTop: 10,
+  },
+  description: {
+    color: colors.discription,
+    fontSize: 20,
+    fontFamily: 'Outfit-Regular',
+  },
+  infoRow: {
+    flexDirection: 'row',
+    marginTop: 10,
+    flexWrap: 'wrap',
+  },
+  infoBox: {
+    backgroundColor: '#cedbbd',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
+    margin: 5,
+  },
+  infoText: {
+    color: 'green',
+    fontFamily: 'Outfit-Bold',
+    fontSize: 17,
+    marginTop: 5,
+    marginStart: 10,
+  },
+  infoLabel: {
+    marginStart: 12,
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  infoIcon: {
+    height: 30,
+    width: 30,
+    tintColor: 'green',
+  },
 });
+
 export default DetailIntro;

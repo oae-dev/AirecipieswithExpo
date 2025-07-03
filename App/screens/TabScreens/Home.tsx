@@ -9,9 +9,6 @@ import colors from '../../../services/colors';
 
 
 const Home = () => {
-
-
-
   return (
     <FlatList data={[]}
     style={styles.container}
