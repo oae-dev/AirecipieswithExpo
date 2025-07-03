@@ -39,3 +39,4 @@ yarn-error.*
 app-example
 
 firebaseConfig.js
+services/constants.tsx

@@ -5,6 +5,7 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MarqueeList from '@/App/component/marqueeList';
 import MyButton from '@/App/component/MyButton';
+import { useUser } from '@/App/context/authcontext';
 import colors from '@/services/colors';
 import { StackRootProps } from '../navigators/starting';
 import { screens } from '../screenNames/screenNames';
@@ -27,7 +28,8 @@ const imglist: number[] = [
 
 
 const Splash = () => {
-  
+  const {user} = useUser();
+  console.log(user);
   const Navigation = useNavigation<NativeStackNavigationProp<StackRootProps, 'Splash'>>();
   const screenHeight = Dimensions.get('window').height;
 
@@ -44,7 +46,15 @@ const Splash = () => {
         <Text style={styles.title}>Cookmate AI 🧆🔎 | Find, Create & Enjoy Delicious Recipes!</Text>
         <Text style={styles.dis}>Generate Delicious Respies in seconds with the power of AI 🍔 ✨</Text>
         <MyButton title="SIGN IN" color="green" 
-        btnwidth={'100%'} onpress={() => Navigation.navigate(screens.Login)} />
+        btnwidth={'100%'} onpress={() =>
+          {if(user != null){
+
+              Navigation.replace(screens.HomeTabs);
+
+          }
+          else{
+            Navigation.navigate(screens.Login);
+          }}} />
       </View>
     </ScrollView>
   );
