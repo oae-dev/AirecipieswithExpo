@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 
 import MarqueeList from '@/App/component/marqueeList';
@@ -34,9 +34,8 @@ const Splash = () => {
   const screenHeight = Dimensions.get('window').height;
 
   return (
-    <ScrollView style={styles.container}
-    contentContainerStyle={{ flexGrow: 1, minHeight: screenHeight}}>
-      <View>
+    <View style={styles.container}>
+      <View style = {{transform: [{ rotate: '-5deg' }]}}>
       <MarqueeList data={imglist} speed={2} />
       <MarqueeList data={imglist} speed={1.5} />
       <MarqueeList data={imglist} speed={1.7} />
@@ -56,7 +55,7 @@ const Splash = () => {
             Navigation.navigate(screens.Login);
           }}} />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -37,17 +37,14 @@ const styles = StyleSheet.create({
     container: {
         height: 170,
         justifyContent: 'center',
-        overflow: 'hidden',
-        transform: [{ rotate: '-5deg' }],
-    },
+   },
     img: {
         width: '100%',
         height: '100%',
-        borderRadius: 10,
     },
     imageWrapper: {
         width: 220,
-        height: 160,
+        height: '100%',
         marginHorizontal: 10,
         borderRadius: 10,
         overflow: 'hidden',

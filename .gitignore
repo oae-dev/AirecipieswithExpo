@@ -40,3 +40,4 @@ app-example
 
 firebaseConfig.js
 services/constants.tsx
+services/gemApi.tsx
